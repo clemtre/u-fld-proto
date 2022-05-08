@@ -8,67 +8,67 @@
         height: classHeader.height,
       }"
     >
-
-    <img :src="classHeader.src" alt="">
+      <img width="2000" :src="classHeader.src" alt="" />
       <!-- <div class="gradient"></div> -->
     </div>
     <div class="header-padding"></div>
-    <accordeon-dep :state="state" @stateBio="stateBio" @stateTel="stateTel">
+    <accordeon-dep
+      :state="state"
+      @changeimg="changeimg"
+      @statebio="statebio"
+      @stateTel="stateTel"
+    >
     </accordeon-dep>
+    <section class="bio" v-if="state.bio">
+      <p v-html="Bio.descriptif"></p>
+      <hr />
+    </section>
     <ul>
-      <li v-for="projet in Projets" :key="projet.id">
-        <div class="li-retrait">
-        {{projet.titre | stripHTML}}
+      <li class="projet" v-for="projet in Projets" :key="projet.id">
+        <img
+          class="entete"
+          v-bind:style="{ maxHeight: classImg.heightRet }"
+          :src="
+            'https://porte-secrete.unexploredfields.com/assets/' +
+            projet.entete +
+            '?quality=20'
+          "
+          alt=""
+        />
+        <div class="li-retrait" v-if="projet.entete">
+          <h2>
+            {{ projet.titre | stripHTML }}
+            </h2>
+          <br />
+          <h2>
+            {{ projet.nomClient | stripHTML }}
+          </h2>
+          <section class="meta">
 
+          <h3>{{ projet.date }}</h3>
+          <h3 v-if="projet.formats_et_techniques">{{ projet.formats_et_techniques }}</h3>
+          <h3 v-if="projet.credits">{{ projet.credits }}</h3>
+          </section>
         </div>
         <!-- <hr class="li-hr"> -->
       </li>
-
     </ul>
     <!-- <p>
       {{ projet }}
     </p>-->
-    <p>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex distinctio
-      necessitatibus veniam, fugit expedita non blanditiis dignissimos iure qui
-      rerum cupiditate quae omnis labore? Voluptates nam atque pariatur adipisci
-      necessitatibus? Eius perferendis, quis quisquam magnam excepturi voluptate
-      adipisci unde voluptatum sunt magni libero vitae eveniet alias doloribus
-      iure sequi suscipit quaerat laudantium assumenda aspernatur pariatur
-      dolorum itaque nulla? Iste, voluptates? Quisquam quaerat veniam fuga non!
-      Iusto labore, deleniti consectetur sint rerum fuga. Nulla deserunt
-      explicabo nostrum culpa. Harum earum consequatur officia eos rem id itaque
-      vero totam. Sit, dolor alias. Unde eum modi quas impedit expedita incidunt
-      itaque dolores ab aperiam. Necessitatibus recusandae nobis repellendus ut,
-      ducimus ullam cumque sunt ipsum, sit delectus iste animi perspiciatis
-      aliquam neque aliquid ipsam? Asperiores dicta, cumque quod molestias iusto
-      illum temporibus facilis eaque unde non quia incidunt sunt sed est placeat
-      perspiciatis voluptatibus omnis veniam debitis optio voluptates. Cum fuga
-      at magnam culpa? Cum labore consequatur aliquid quae laboriosam assumenda
-      suscipit sit, excepturi eum exercitationem iste dolore rerum, fugiat nisi
-      eligendi modi quia numquam quod saepe earum, a debitis. Hic veniam id
-      adipisci. Consequuntur ea, delectus magni ut voluptates, commodi minus et
-      magnam tempore, amet deleniti? Nobis hic ipsam sed? Et quam hic unde,
-      alias suscipit perferendis, eum odit mollitia sunt, natus dicta!
-      Consectetur molestias, mollitia ipsam voluptatum velit est voluptatibus
-      necessitatibus sint consequuntur repellendus libero pariatur quasi
-      sapiente harum dolor ipsum, temporibus incidunt veniam earum. Libero
-      delectus eum itaque sapiente sint debitis. Quia excepturi rem facilis
-      rerum quaerat atque voluptatibus sapiente nihil labore sint qui suscipit
-      perspiciatis quod esse possimus odit deserunt, unde perferendis numquam
-      assumenda. Expedita unde minus cum vel nulla. Delectus illum ad laboriosam
-      reiciendis explicabo officia accusantium, facere cumque! Labore, vel
-      debitis veritatis pariatur culpa cupiditate, officiis aliquam, sint cum
-      voluptatem similique! Autem sit, temporibus eos quam facilis molestias.
-    </p>
   </div>
 </template>
 
 <script>
 import Projets from "./assets/Projets.json";
 import Images from "./assets/Images.json";
+import Clients from "./assets/Clients.json";
+import Bio from "./assets/Bio.json";
 import AccordeonDep from "./components/AccordeonDep.vue";
-import Vue from 'vue';
+
+import "./assets/global.css";
+
+import Vue from "vue";
 
 export default {
   name: "App",
@@ -76,6 +76,7 @@ export default {
 
   data() {
     return {
+      Bio: Bio.data,
       Projets: Projets.data,
       state: {
         bio: false,
@@ -85,13 +86,22 @@ export default {
         display: "none",
         backgroundColor: "yellow",
         height: "calc(100% - 20px)",
-        src:require('./assets/output.png'),
-        srcFlag:false
+        src: require("./assets/output.png"),
+        srcFlag: false,
+      },
+      classImg: {
+        height: 90,
+        heightRet: "90vh",
       },
     };
   },
   methods: {
-    stateBio: function () {
+    changeimg(event) {
+      console.log(event);
+      this.classImg.height -= event;
+      this.classImg.heightRet = this.classImg.height + "vh";
+    },
+    statebio: function () {
       this.state.bio = !this.state.bio;
     },
     stateTel: function () {
@@ -100,16 +110,14 @@ export default {
 
     handleScroll() {
       // this.classHeader.backgroundColor = "#"+Math.round(Math.random()*10)+''+Math.round(Math.random()*10)+''+Math.round(Math.random()*10)
-      console.log()
-      const e = 100 - ((window.top.scrollY / window.innerHeight) * 100);
-      this.classHeader.height = 'calc( '+ e + '% - 20px)';
-      
+      console.log();
+      const e = 100 - (window.top.scrollY / window.innerHeight) * 100;
+      this.classHeader.height = "calc( " + e + "% - 20px)";
+
       if (window.top.scrollY > window.innerHeight) {
-        
         this.classHeader.display = "none";
-      }
-      else{
-        this.classHeader.display = "block"
+      } else {
+        this.classHeader.display = "block";
       }
     },
   },
@@ -121,16 +129,16 @@ export default {
   },
 
   mounted() {
-    console.clear();
     console.log(window.pageYOffset);
     if (window.pageYOffset === 0) {
       this.classHeader.display = "block";
     } else {
-
       this.classHeader.display = "none";
     }
     const images = Images.data;
     for (const projet of Projets.data) {
+      const nomClient = Clients.data.find((x) => x.id === projet.client);
+      projet.nomClient = nomClient.nom;
       if (projet.medias.length) {
         for (let media = 0; media < projet.medias.length; media++) {
           const imageRes = images.find((x) => x.id === projet.medias[media]);
@@ -142,6 +150,7 @@ export default {
         }
       }
     }
+    Projets.data.sort((a, b) => (a.ordre > b.ordre ? 1 : -1));
     // const projet = Projets.data.find((x) => x.slug === "farfetch");
     return {
       Projets,
@@ -149,50 +158,65 @@ export default {
   },
 };
 
-Vue.filter('stripHTML', function (value) {
-  const div = document.createElement('div')
-  div.innerHTML = value
-  const text = div.textContent || div.innerText || ''
-  return text
+//plutot le faire dans le cms
+Vue.filter("cesureNoms", function (value) {
+  const res = value.replace(/\b[A-Z][a-z0-9]+\s\b[A-Z][a-z0-9]+/g, "aa");
+  console.log(value);
+  return res;
+});
+
+Vue.filter("stripHTML", function (value) {
+  const div = document.createElement("div");
+  div.innerHTML = value;
+  const text = div.textContent || div.innerText || "";
+  return text;
 });
 </script>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&family=Libre+Baskerville:ital@0;1&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&family=Libre+Baskerville:ital@0;1&display=swap");
 * {
   font-size: 32px;
-      color: black;
-    font-family: 'Libre Baskerville', serif;
+  color: black;
+  font-family: "Libre Baskerville", serif;
+}
+.projet:hover {
+  background-color: yellow;
+}
+.entete {
+  max-height: 90vh;
 }
 
 .li-hr {
   position: absolute;
 }
-
+.bio {
+  position: sticky;
+}
 html {
-  overflow-x: hidden;
+  /* overflow-x: hidden; */
 }
 ul {
-  padding:0
+  padding: 0;
 }
 li:hover {
-  font-style:oblique;
+  font-style: oblique;
 }
-.li-retrait::before{
-  background: url('./assets/uf-mono.png');
+.li-retrait::before {
+  background: url("./assets/uf-mono.png");
   background-size: 40px 40px;
-    display: inline-block;
-    width: 40px; 
-    height: 40px;
-    position: absolute;
-    content:"";
-    left: 10px;
-    top: 5px;
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  content: "";
+  left: 10px;
+  bottom: 50px;
 }
 .li-retrait {
   margin-left: 60px;
 }
-li{
+li {
   position: relative;
   line-height: 50px;
   border-bottom: 1px solid black;
@@ -212,7 +236,7 @@ img {
   object-fit: contain;
   transform-origin: center;
 }
- .header * {
+.header * {
   box-sizing: border-box;
 }
 .header {
@@ -224,7 +248,7 @@ img {
 }
 body {
   width: calc(100% - 40px);
-  margin : 10px
+  margin: 10px;
 }
 /* .header::after {
   width: 100%;
@@ -239,5 +263,4 @@ body {
 
   width: 100%;
 }
-
 </style>

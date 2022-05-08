@@ -1,0 +1,55 @@
+h2, h3 {
+    color: black;
+    font-weight: initial;
+    font-style:normal;
+    margin: 0;
+    /* line-height: 40px; */
+    padding-bottom: 10px;
+    width: 50%;
+    display: inline-block;
+}
+h3 {font-size: 16px;
+    width: 100%;
+    padding-bottom: 0;
+    padding: 0;
+    margin: 0;
+    font-family: 'IBM Plex Mono', monospace;
+}
+.meta h3 {
+    line-height: 18px;
+    /* transform: translateY(-20px); */
+}
+.meta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 50%;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    text-align: center;
+    line-height: 0;
+    height: 100px;
+}
+h3:last-child {
+}
+
+p:not(:first-child){
+    text-indent: 20px;
+}
+h2 {
+    margin:0;
+    padding: 0;
+}
+h2:first-child{
+    /* margin-top: 30px; */
+    transform: translateY(5px);
+}
+@media screen and (max-width : 800px) {
+    .meta, h2 {
+        width: 100%;
+        position: relative;
+    }
+    
+}
