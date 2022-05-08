@@ -207,6 +207,7 @@ img {
   margin-left: 50%;
   transform: translateX(-50%);
   float: left;
+  width: 100%;
   scale: 1;
   object-fit: contain;
   transform-origin: center;
