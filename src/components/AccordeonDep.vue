@@ -50,7 +50,6 @@ button {
   width: 100%;
   height: fit-content;
   background-color: black;
-  margin: 10px;
   padding: 10px;
   margin-top: 0px;
   z-index: 6969696969;

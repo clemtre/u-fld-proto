@@ -84,7 +84,7 @@ export default {
       classHeader: {
         display: "none",
         backgroundColor: "yellow",
-        height: "calc(100% - 10px)",
+        height: "calc(100% - 20px)",
         src:require('./assets/output.png'),
         srcFlag:false
       },
@@ -124,10 +124,8 @@ export default {
     console.clear();
     console.log(window.pageYOffset);
     if (window.pageYOffset === 0) {
-      console.log("a0");
       this.classHeader.display = "block";
     } else {
-      console.log("b1");
 
       this.classHeader.display = "none";
     }
@@ -165,7 +163,6 @@ Vue.filter('stripHTML', function (value) {
   font-size: 32px;
       color: black;
     font-family: 'Libre Baskerville', serif;
-    margin: 0;
 }
 
 .li-hr {
@@ -210,41 +207,36 @@ img {
   margin-left: 50%;
   transform: translateX(-50%);
   float: left;
-  overflow: hidden;
   scale: 1;
-  width: 100%;
   object-fit: contain;
   transform-origin: center;
 }
+ .header * {
+  box-sizing: border-box;
+}
 .header {
   /* border: 10px solid black; */
-  width: 100%;
-  margin: 10px;
+  width: calc(100% - 20px);
   height: 100%;
-overflow: hidden;
-
   position: fixed;
   pointer-events: none;
 }
-.header::after {
+body {
+  width: calc(100% - 40px);
+  margin : 10px
+}
+/* .header::after {
   width: 100%;
   height: 10px;
   background-color: green;
   position: absolute;
   top:0
-}
+} */
 .header-padding {
   height: 100vh;
+  height: calc(100vh - 10px);
+
   width: 100%;
 }
-.gradient {
-  height: 100%;
-  width: 100%;
-  background: linear-gradient(
-    0deg,
-    rgba(2, 0, 36, 1) 0%,
-    rgba(9, 9, 121, 1) 35%,
-    rgba(0, 212, 255, 1) 100%
-  );
-}
+
 </style>
