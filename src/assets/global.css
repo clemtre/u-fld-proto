@@ -1,3 +1,8 @@
+body {
+    width: calc(100% - 20px);
+    margin: 10px;
+  }
+
 h2, h3 {
     color: black;
     font-weight: initial;
@@ -8,15 +13,18 @@ h2, h3 {
     width: 50%;
     display: inline-block;
 }
-h3 {font-size: 16px;
+h3 {
+    font-size: 16px;
     width: 100%;
     padding-bottom: 0;
     padding: 0;
     margin: 0;
+    height: 30px!important;
     font-family: 'IBM Plex Mono', monospace;
 }
 .meta h3 {
-    line-height: 18px;
+    line-height: 12px;
+    height: 10px !important;
     /* transform: translateY(-20px); */
 }
 .meta {
@@ -30,9 +38,6 @@ h3 {font-size: 16px;
     right: 0;
     text-align: center;
     line-height: 0;
-    height: 100px;
-}
-h3:last-child {
 }
 
 p:not(:first-child){

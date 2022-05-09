@@ -1,32 +1,22 @@
 <template>
   <div id="app">
-    <div
-      class="header"
-      v-bind:style="{
-        display: classHeader.display,
-        backgroundColor: classHeader.backgroundColor,
-        height: classHeader.height,
-      }"
-    >
-      <img width="2000" :src="classHeader.src" alt="" />
-      <!-- <div class="gradient"></div> -->
-    </div>
-    <div class="header-padding"></div>
+    <header-uf :classHeader="classHeader"></header-uf>
     <accordeon-dep
       :state="state"
       @changeimg="changeimg"
       @statebio="statebio"
-      @stateTel="stateTel"
-    >
+      @stateImages="stateImages"
+      @stateTel="stateTel" >
     </accordeon-dep>
     <section class="bio" v-if="state.bio">
       <p v-html="Bio.descriptif"></p>
-      <hr />
+      <hr >
     </section>
     <ul>
       <li class="projet" v-for="projet in Projets" :key="projet.id">
         <img
           class="entete"
+          v-if="state.images"
           v-bind:style="{ maxHeight: classImg.heightRet }"
           :src="
             'https://porte-secrete.unexploredfields.com/assets/' +
@@ -38,21 +28,23 @@
         <div class="li-retrait" v-if="projet.entete">
           <h2>
             {{ projet.titre | stripHTML }}
-            </h2>
+          </h2>
           <br />
-          <h2>
+          <h2 >
             {{ projet.nomClient | stripHTML }}
           </h2>
           <section class="meta">
-
-          <h3>{{ projet.date }}</h3>
-          <h3 v-if="projet.formats_et_techniques">{{ projet.formats_et_techniques }}</h3>
-          <h3 v-if="projet.credits">{{ projet.credits }}</h3>
+            <h3>{{ projet.date }}</h3>
+            <h3 v-if="projet.formats_et_techniques">{{projet.formats_et_techniques }}
+            </h3>
           </section>
         </div>
         <!-- <hr class="li-hr"> -->
       </li>
     </ul>
+    <div>
+      <p style="text-align: center">Pieds de page, 2022</p>
+    </div>
     <!-- <p>
       {{ projet }}
     </p>-->
@@ -65,6 +57,7 @@ import Images from "./assets/Images.json";
 import Clients from "./assets/Clients.json";
 import Bio from "./assets/Bio.json";
 import AccordeonDep from "./components/AccordeonDep.vue";
+import HeaderUf from "./components/HeaderUf.vue";
 
 import "./assets/global.css";
 
@@ -72,7 +65,7 @@ import Vue from "vue";
 
 export default {
   name: "App",
-  components: { AccordeonDep },
+  components: { AccordeonDep, HeaderUf },
 
   data() {
     return {
@@ -81,6 +74,7 @@ export default {
       state: {
         bio: false,
         tel: false,
+        images: true
       },
       classHeader: {
         display: "none",
@@ -88,6 +82,8 @@ export default {
         height: "calc(100% - 20px)",
         src: require("./assets/output.png"),
         srcFlag: false,
+        position: 'fixed',
+        width:'100%'
       },
       classImg: {
         height: 90,
@@ -107,13 +103,15 @@ export default {
     stateTel: function () {
       this.state.tel = !this.state.tel;
     },
+    stateImages: function () {
+      this.state.images = !this.state.images;
+    },
 
     handleScroll() {
       // this.classHeader.backgroundColor = "#"+Math.round(Math.random()*10)+''+Math.round(Math.random()*10)+''+Math.round(Math.random()*10)
-      console.log();
       const e = 100 - (window.top.scrollY / window.innerHeight) * 100;
-      this.classHeader.height = "calc( " + e + "% - 20px)";
-
+      this.classHeader.height = "calc(" + Math.round(e) + "% - 10px)";
+      console.log(this.classHeader.height)
       if (window.top.scrollY > window.innerHeight) {
         this.classHeader.display = "none";
       } else {
@@ -129,7 +127,6 @@ export default {
   },
 
   mounted() {
-    console.log(window.pageYOffset);
     if (window.pageYOffset === 0) {
       this.classHeader.display = "block";
     } else {
@@ -174,6 +171,9 @@ Vue.filter("stripHTML", function (value) {
 </script>
 
 <style>
+html {
+  overflow-x: hidden
+}
 @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&family=Libre+Baskerville:ital@0;1&display=swap");
 * {
   font-size: 32px;
@@ -181,7 +181,7 @@ Vue.filter("stripHTML", function (value) {
   font-family: "Libre Baskerville", serif;
 }
 .projet:hover {
-  background-color: yellow;
+  background-color: yellow !important;
 }
 .entete {
   max-height: 90vh;
@@ -191,10 +191,7 @@ Vue.filter("stripHTML", function (value) {
   position: absolute;
 }
 .bio {
-  position: sticky;
-}
-html {
-  /* overflow-x: hidden; */
+  position: relative;
 }
 ul {
   padding: 0;
@@ -223,33 +220,19 @@ li {
   width: 100%;
   list-style-type: none;
 }
-button:active {
-}
 
-img {
-  height: 100%;
-  margin-left: 50%;
+ img {
+   margin-left: 50%;
   transform: translateX(-50%);
-  float: left;
+  /* float: left; */
   width: 100%;
   scale: 1;
+  position: relative;
   object-fit: contain;
   transform-origin: center;
-}
-.header * {
-  box-sizing: border-box;
-}
-.header {
-  /* border: 10px solid black; */
-  width: calc(100% - 20px);
   height: 100%;
-  position: fixed;
-  pointer-events: none;
 }
-body {
-  width: calc(100% - 40px);
-  margin: 10px;
-}
+
 /* .header::after {
   width: 100%;
   height: 10px;
@@ -257,10 +240,5 @@ body {
   position: absolute;
   top:0
 } */
-.header-padding {
-  height: 100vh;
-  height: calc(100vh - 10px);
 
-  width: 100%;
-}
 </style>
