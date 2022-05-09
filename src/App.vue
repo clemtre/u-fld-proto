@@ -116,6 +116,10 @@ export default {
         this.classHeader.display = "none";
       } else {
         this.classHeader.display = "block";
+        this.classHeader.backgroundColor = 'rgb('+Math.random()*250+","+Math.random()*250+","+Math.random()*250+")"
+        this.classHeader.src = require("./assets/sauco.jpeg")
+        
+
       }
     },
   },
