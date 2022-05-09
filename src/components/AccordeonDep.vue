@@ -1,8 +1,11 @@
 <template>
   <div v-bind:style="[ui]">
+<a href="#scrollto">
     <button @click="$emit('statebio')">
       bio{{ state.bio ? "[x]" : "[_]" }}
     </button>
+</a>
+
 
     <button class="button-parent" @click="$emit('stateImages')">
       images{{ state.images ? "[x]" : "[_]" }}

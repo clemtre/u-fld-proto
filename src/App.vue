@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    
     <header-uf :classHeader="classHeader"></header-uf>
     <accordeon-dep
       :state="state"
@@ -8,6 +9,7 @@
       @stateImages="stateImages"
       @stateTel="stateTel" >
     </accordeon-dep>
+    <section id="scrollto"></section>
     <section class="bio" v-if="state.bio">
       <p v-html="Bio.descriptif"></p>
       <hr >
@@ -26,7 +28,7 @@
           alt=""
         />
         <div class="li-retrait" v-if="projet.entete">
-          <h2>
+          <h2 class="titre" style="text-decoration : underline">
             {{ projet.titre | stripHTML }}
           </h2>
           <br />
@@ -175,6 +177,9 @@ Vue.filter("stripHTML", function (value) {
 </script>
 
 <style>
+
+
+
 html {
   overflow-x: hidden
 }
@@ -200,6 +205,7 @@ html {
 ul {
   padding: 0;
 }
+
 li:hover {
   font-style: oblique;
 }

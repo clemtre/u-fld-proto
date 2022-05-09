@@ -4,7 +4,11 @@
       class="header"
       v-bind:style="classHeader"
     >
+    <transition name="fade"
+    >
       <img :src="classHeader.src" alt="" />
+    </transition>
+
       <!-- <div class="gradient"></div> -->
     </div>
     <div v-bind:style="{height : 'calc(100vh - 20px)'}" ></div>
@@ -19,6 +23,18 @@ export default {
 </script>
 
 <style >
+@keyframes go {
+  from {
+    background: #fff;
+  }
+  to {
+    background: #999;
+  }
+}
+
+.fade-enter-active {
+  animation: go 2s;
+}
 .header * {
   box-sizing: border-box;
 }
