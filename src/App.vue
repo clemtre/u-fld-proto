@@ -115,9 +115,9 @@ export default {
       if (window.top.scrollY > window.innerHeight) {
         this.classHeader.display = "none";
         this.classHeader.backgroundColor = 'rgb('+Math.random()*250+","+Math.random()*250+","+Math.random()*250+")"
+        this.classHeader.src = require("./assets/sauco.jpeg")
       } else {
         this.classHeader.display = "block";
-        this.classHeader.src = require("./assets/sauco.jpeg")
         
 
       }
